@@ -4,15 +4,14 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
 
--- ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "SapiHub"
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
--- Blur effect
 local Blur = Instance.new("BlurEffect")
 Blur.Size = 0
 Blur.Parent = game.Lighting
@@ -24,7 +23,6 @@ local function blurOff()
     TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 0}):Play()
 end
 
--- Main Frame
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 380, 0, 320)
@@ -33,11 +31,19 @@ MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.BackgroundTransparency = 0.15
 MainFrame.Parent = ScreenGui
 
+local scale = Instance.new("UIScale")
+scale.Parent = MainFrame
+
+if UIS.TouchEnabled and not UIS.KeyboardEnabled then
+    scale.Scale = 0.65
+else
+    scale.Scale = 1
+end
+
 local Corner = Instance.new("UICorner")
 Corner.CornerRadius = UDim.new(0, 12)
 Corner.Parent = MainFrame
 
--- Shadow
 local Shadow = Instance.new("ImageLabel")
 Shadow.Name = "Shadow"
 Shadow.Parent = MainFrame
@@ -124,26 +130,35 @@ local NotifyColors = {
 
 function UI.ShowNotification(text, nType)
     nType = nType or "info"
-    local Note = Instance.new("TextLabel")
-    Note.Parent = MainFrame
-    Note.Size = UDim2.new(1, -24, 0, 30)
-    Note.Position = UDim2.new(0, 12, 0, 145)
+    if not UI.NotificationLabel then
+        UI.NotificationLabel = Instance.new("TextLabel")
+        UI.NotificationLabel.Parent = MainFrame
+        UI.NotificationLabel.Size = UDim2.new(1, -24, 0, 30)
+        UI.NotificationLabel.Position = UDim2.new(0, 12, 0, 145)
+        UI.NotificationLabel.TextColor3 = Color3.new(1, 1, 1)
+        UI.NotificationLabel.Font = Enum.Font.GothamMedium
+        UI.NotificationLabel.TextScaled = true
+
+        local C = Instance.new("UICorner", UI.NotificationLabel)
+        C.CornerRadius = UDim.new(0, 10)
+    end
+    local Note = UI.NotificationLabel
     Note.BackgroundColor3 = NotifyColors[nType]
-    Note.TextColor3 = Color3.new(1, 1, 1)
-    Note.Font = Enum.Font.GothamMedium
-    Note.TextScaled = true
+    Note.TextTransparency = 0
+    Note.BackgroundTransparency = 0
     Note.Text = text
-    local C = Instance.new("UICorner", Note)
-    C.CornerRadius = UDim.new(0, 10)
 
     task.spawn(function()
         task.wait(2)
         for i = 1, 20 do
-            Note.TextTransparency = i/20
-            Note.BackgroundTransparency = i/20
+            Note.TextTransparency = i / 20
+            Note.BackgroundTransparency = i / 20
             task.wait(0.03)
         end
-        Note:Destroy()
+        Note.Text = "No News"
+        Note.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        Note.TextTransparency = 0.3
+        Note.BackgroundTransparency = 0.3
     end)
 end
 
@@ -206,7 +221,6 @@ SkipButton.MouseButton1Click:Connect(function()
 end)
 
 -- DRAGGING
-local UIS = game:GetService("UserInputService")
 local dragging, dragStart, startPos = false, nil, nil
 
 local function startDrag(input)
