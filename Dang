@@ -3,28 +3,31 @@ local UI = {}
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
+local TweenService = game:GetService("TweenService")
 
+-- ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "SapiHub"
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
+-- Blur effect
 local Blur = Instance.new("BlurEffect")
 Blur.Size = 0
 Blur.Parent = game.Lighting
 
 local function blurOn()
-    game:GetService("TweenService"):Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 10}):Play()
+    TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 10}):Play()
 end
-
 local function blurOff()
-    game:GetService("TweenService"):Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 0}):Play()
+    TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 0}):Play()
 end
 
+-- Main Frame
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 380, 0, 260)
+MainFrame.Size = UDim2.new(0, 380, 0, 320)
 MainFrame.Position = UDim2.new(0.5, -190, 0.35, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.BackgroundTransparency = 0.15
@@ -34,6 +37,7 @@ local Corner = Instance.new("UICorner")
 Corner.CornerRadius = UDim.new(0, 12)
 Corner.Parent = MainFrame
 
+-- Shadow
 local Shadow = Instance.new("ImageLabel")
 Shadow.Name = "Shadow"
 Shadow.Parent = MainFrame
@@ -42,11 +46,12 @@ Shadow.Position = UDim2.new(0.5, 0, 0.5, 4)
 Shadow.Size = UDim2.new(1, 30, 1, 30)
 Shadow.BackgroundTransparency = 1
 Shadow.Image = "rbxassetid://6015897843"
-Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+Shadow.ImageColor3 = Color3.new(0, 0, 0)
 Shadow.ImageTransparency = 0.45
 Shadow.ScaleType = Enum.ScaleType.Slice
 Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
 
+-- Title
 local Title = Instance.new("TextLabel")
 Title.Name = "Title"
 Title.Size = UDim2.new(1, 0, 0, 42)
@@ -56,35 +61,48 @@ Title.TextColor3 = Color3.new(1, 1, 1)
 Title.TextScaled = true
 Title.Text = "Sapi Hub | Auto Bounty"
 Title.Parent = MainFrame
-
 local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = Title
 
+-- Message
 local Message = Instance.new("TextLabel")
 Message.Name = "Message"
 Message.Parent = MainFrame
 Message.Position = UDim2.new(0, 12, 0, 55)
-Message.Size = UDim2.new(1, -24, 0, 35)
+Message.Size = UDim2.new(1, -24, 0, 25)
 Message.BackgroundTransparency = 1
 Message.TextColor3 = Color3.fromRGB(220, 220, 220)
 Message.Font = Enum.Font.GothamSemibold
 Message.TextScaled = true
 Message.Text = "Waiting..."
 
+-- Targets
 local TargetListLabel = Instance.new("TextLabel")
 TargetListLabel.Name = "TargetListLabel"
 TargetListLabel.Parent = MainFrame
-TargetListLabel.Position = UDim2.new(0, 12, 0, 95)
-TargetListLabel.Size = UDim2.new(1, -24, 0, 35)
+TargetListLabel.Position = UDim2.new(0, 12, 0, 85)
+TargetListLabel.Size = UDim2.new(1, -24, 0, 25)
 TargetListLabel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 TargetListLabel.TextColor3 = Color3.new(1, 1, 1)
 TargetListLabel.TextScaled = true
 TargetListLabel.Text = "Targets: none"
-
 local TC1 = Instance.new("UICorner")
 TC1.CornerRadius = UDim.new(0, 10)
 TC1.Parent = TargetListLabel
+
+local CurrentTargetLabel = Instance.new("TextLabel")
+CurrentTargetLabel.Name = "CurrentTargetLabel"
+CurrentTargetLabel.Parent = MainFrame
+CurrentTargetLabel.Position = UDim2.new(0, 12, 0, 115)
+CurrentTargetLabel.Size = UDim2.new(1, -24, 0, 25)
+CurrentTargetLabel.BackgroundColor3 = Color3.fromRGB(50, 120, 255)
+CurrentTargetLabel.TextColor3 = Color3.new(1, 1, 1)
+CurrentTargetLabel.TextScaled = true
+CurrentTargetLabel.Text = "Current Target: none"
+local TC2 = Instance.new("UICorner")
+TC2.CornerRadius = UDim.new(0, 10)
+TC2.Parent = CurrentTargetLabel
 
 function UI.UpdateTargetsList(list)
     if typeof(list) == "table" then
@@ -93,25 +111,11 @@ function UI.UpdateTargetsList(list)
         TargetListLabel.Text = "Targets: " .. tostring(list or "none")
     end
 end
-
-local CurrentTargetLabel = Instance.new("TextLabel")
-CurrentTargetLabel.Name = "CurrentTargetLabel"
-CurrentTargetLabel.Parent = MainFrame
-CurrentTargetLabel.Position = UDim2.new(0, 12, 0, 135)
-CurrentTargetLabel.Size = UDim2.new(1, -24, 0, 35)
-CurrentTargetLabel.BackgroundColor3 = Color3.fromRGB(50, 120, 255)
-CurrentTargetLabel.TextColor3 = Color3.new(1, 1, 1)
-CurrentTargetLabel.TextScaled = true
-CurrentTargetLabel.Text = "Current Target: none"
-
-local TC2 = Instance.new("UICorner")
-TC2.CornerRadius = UDim.new(0, 10)
-TC2.Parent = CurrentTargetLabel
-
 function UI.SetTarget(name)
     CurrentTargetLabel.Text = "Current Target: " .. tostring(name or "none")
 end
 
+-- Notifications
 local NotifyColors = {
     success = Color3.fromRGB(60, 200, 90),
     error   = Color3.fromRGB(220, 80, 80),
@@ -121,17 +125,15 @@ local NotifyColors = {
 
 function UI.ShowNotification(text, nType)
     nType = nType or "info"
-
     local Note = Instance.new("TextLabel")
     Note.Parent = MainFrame
-    Note.Size = UDim2.new(1, -24, 0, 40)
-    Note.Position = UDim2.new(0, 12, 0, 180)
+    Note.Size = UDim2.new(1, -24, 0, 30)
+    Note.Position = UDim2.new(0, 12, 0, 145)
     Note.BackgroundColor3 = NotifyColors[nType]
     Note.TextColor3 = Color3.new(1, 1, 1)
     Note.Font = Enum.Font.GothamMedium
     Note.TextScaled = true
     Note.Text = text
-
     local C = Instance.new("UICorner", Note)
     C.CornerRadius = UDim.new(0, 10)
 
@@ -146,60 +148,35 @@ function UI.ShowNotification(text, nType)
     end)
 end
 
+-- Stats (inside main frame)
 local StatsFrame = Instance.new("Frame")
 StatsFrame.Name = "StatsFrame"
 StatsFrame.Parent = MainFrame
-StatsFrame.Size = UDim2.new(1, -24, 0, 90)
-StatsFrame.Position = UDim2.new(0, 12, 0, 225)
+StatsFrame.Size = UDim2.new(1, -24, 0, 80)
+StatsFrame.Position = UDim2.new(0, 12, 0, 180)
 StatsFrame.BackgroundTransparency = 1
 
-local EarnedLabel = Instance.new("TextLabel")
-EarnedLabel.Name = "EarnedLabel"
-EarnedLabel.Parent = StatsFrame
-EarnedLabel.Size = UDim2.new(1, 0, 0, 25)
-EarnedLabel.Position = UDim2.new(0, 0, 0, 0)
-EarnedLabel.BackgroundTransparency = 0.3
-EarnedLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-EarnedLabel.TextColor3 = Color3.new(1, 1, 1)
-EarnedLabel.Font = Enum.Font.GothamMedium
-EarnedLabel.TextScaled = true
-EarnedLabel.Text = "Earned: 0"
+local function createStatLabel(name, posY)
+    local label = Instance.new("TextLabel")
+    label.Name = name
+    label.Parent = StatsFrame
+    label.Size = UDim2.new(1, 0, 0, 25)
+    label.Position = UDim2.new(0, 0, 0, posY)
+    label.BackgroundTransparency = 0.3
+    label.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.Font = Enum.Font.GothamMedium
+    label.TextScaled = true
+    label.Text = name .. ": 0"
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = label
+    return label
+end
 
-local EC1 = Instance.new("UICorner")
-EC1.CornerRadius = UDim.new(0, 8)
-EC1.Parent = EarnedLabel
-
-local TotalLabel = Instance.new("TextLabel")
-TotalLabel.Name = "TotalLabel"
-TotalLabel.Parent = StatsFrame
-TotalLabel.Size = UDim2.new(1, 0, 0, 25)
-TotalLabel.Position = UDim2.new(0, 0, 0, 30)
-TotalLabel.BackgroundTransparency = 0.3
-TotalLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-TotalLabel.TextColor3 = Color3.new(1, 1, 1)
-TotalLabel.Font = Enum.Font.GothamMedium
-TotalLabel.TextScaled = true
-TotalLabel.Text = "Total Earned: 0"
-
-local EC2 = Instance.new("UICorner")
-EC2.CornerRadius = UDim.new(0, 8)
-EC2.Parent = TotalLabel
-
-local BountyLabel = Instance.new("TextLabel")
-BountyLabel.Name = "BountyLabel"
-BountyLabel.Parent = StatsFrame
-BountyLabel.Size = UDim2.new(1, 0, 0, 25)
-BountyLabel.Position = UDim2.new(0, 0, 0, 60)
-BountyLabel.BackgroundTransparency = 0.3
-BountyLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-BountyLabel.TextColor3 = Color3.new(1, 1, 1)
-BountyLabel.Font = Enum.Font.GothamMedium
-BountyLabel.TextScaled = true
-BountyLabel.Text = "Bounty/Honor: 0"
-
-local EC3 = Instance.new("UICorner")
-EC3.CornerRadius = UDim.new(0, 8)
-EC3.Parent = BountyLabel
+local EarnedLabel = createStatLabel("Earned", 0)
+local TotalLabel = createStatLabel("Total Earned", 30)
+local BountyLabel = createStatLabel("Bounty/Honor", 60)
 
 function UI.UpdateStats(Earned, TotalEarned, Bounty)
     EarnedLabel.Text = "Earned: " .. tostring(Earned)
@@ -207,41 +184,48 @@ function UI.UpdateStats(Earned, TotalEarned, Bounty)
     BountyLabel.Text = "Bounty/Honor: " .. tostring(Bounty)
 end
 
--- DRAGGING SYSTEM
+-- Skip Button
+local SkipButton = Instance.new("TextButton")
+SkipButton.Name = "SkipButton"
+SkipButton.Parent = MainFrame
+SkipButton.Size = UDim2.new(0, 120, 0, 35)
+SkipButton.Position = UDim2.new(0, 12, 0, 265)
+SkipButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+SkipButton.TextColor3 = Color3.new(1, 1, 1)
+SkipButton.Font = Enum.Font.GothamBold
+SkipButton.TextScaled = true
+SkipButton.Text = "Skip Player"
+local SkipButtonCorner = Instance.new("UICorner")
+SkipButtonCorner.CornerRadius = UDim.new(0, 10)
+SkipButtonCorner.Parent = SkipButton
+
+SkipButton.MouseButton1Click:Connect(function()
+    if getgenv().SkipPlayer then
+        getgenv().SkipPlayer()
+        if getgenv().checked then
+            UI.UpdateTargetsList(getgenv().checked)
+        end
+    end
+end)
+
+-- DRAGGING
 local UIS = game:GetService("UserInputService")
-local dragging = false
-local dragStart
-local startPos
+local dragging, dragStart, startPos = false, nil, nil
 
 local function startDrag(input)
     dragging = true
     dragStart = input.Position
     startPos = MainFrame.Position
-
     input.Changed:Connect(function()
         if input.UserInputState == Enum.UserInputState.End then
             dragging = false
+            blurOff()
         end
     end)
-
     blurOn()
 end
 
-MainFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-       input.UserInputType == Enum.UserInputType.Touch then
-        startDrag(input)
-    end
-end)
-
-Title.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-       input.UserInputType == Enum.UserInputType.Touch then
-        startDrag(input)
-    end
-end)
-
-UIS.InputChanged:Connect(function(input)
+local function updateDrag(input)
     if dragging then
         local delta = input.Position - dragStart
         MainFrame.Position = UDim2.new(
@@ -251,10 +235,13 @@ UIS.InputChanged:Connect(function(input)
             startPos.Y.Offset + delta.Y
         )
     end
-end)
+end
 
-MainFrame.InputEnded:Connect(function()
-    blurOff()
+MainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        startDrag(input)
+    end
 end)
+UIS.InputChanged:Connect(updateDrag)
 
 return UI
