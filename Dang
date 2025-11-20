@@ -115,12 +115,11 @@ function UI.SetTarget(name)
     CurrentTargetLabel.Text = "Current Target: " .. tostring(name or "none")
 end
 
--- Notifications
 local NotifyColors = {
     success = Color3.fromRGB(60, 200, 90),
-    error   = Color3.fromRGB(220, 80, 80),
-    warn    = Color3.fromRGB(240, 180, 70),
-    info    = Color3.fromRGB(80, 170, 240),
+    error = Color3.fromRGB(220, 80, 80),
+    warn = Color3.fromRGB(240, 180, 70),
+    info = Color3.fromRGB(80, 170, 240)
 }
 
 function UI.ShowNotification(text, nType)
@@ -148,7 +147,6 @@ function UI.ShowNotification(text, nType)
     end)
 end
 
--- Stats (inside main frame)
 local StatsFrame = Instance.new("Frame")
 StatsFrame.Name = "StatsFrame"
 StatsFrame.Parent = MainFrame
@@ -184,7 +182,6 @@ function UI.UpdateStats(Earned, TotalEarned, Bounty)
     BountyLabel.Text = "Bounty/Honor: " .. tostring(Bounty)
 end
 
--- Skip Button
 local SkipButton = Instance.new("TextButton")
 SkipButton.Name = "SkipButton"
 SkipButton.Parent = MainFrame
