@@ -785,9 +785,13 @@ spawn(function()
     end
 end)
 
-function CheckInComBat()
-    return game.Players.LocalPlayer.PlayerGui.Main.BottomHUDList.InCombat.Visible = true
-end 
+function CheckInCombat()
+    local inCombat = game.Players.LocalPlayer.PlayerGui.Main.BottomHUDList.InCombat
+    if inCombat.Visible and inCombat.Text then
+        return string.find(string.lower(inCombat.Text), "risk") ~= nil
+    end
+    return false
+end
 
 function HopServer(counts)
     if counts == nil then
