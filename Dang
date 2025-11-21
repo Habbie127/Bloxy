@@ -44,7 +44,7 @@ Glow.Parent = MainFrame
 Glow.Thickness = 6
 Glow.Color = Color3.fromRGB(100, 140, 255)
 Glow.Transparency = 0.6
-Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Outline
+Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 local scale = Instance.new("UIScale")
 scale.Parent = MainFrame
