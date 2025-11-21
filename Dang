@@ -197,7 +197,7 @@ end
 local SkipButton = Instance.new("TextButton")
 SkipButton.Name = "SkipButton"
 SkipButton.Parent = MainFrame
-SkipButton.Size = UDim2.new(0, 100, 0, 25)
+SkipButton.Size = UDim2.new(0, 140, 0, 35)
 SkipButton.Position = UDim2.new(0, 12, 0, 265)
 SkipButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 SkipButton.TextColor3 = Color3.new(1, 1, 1)
