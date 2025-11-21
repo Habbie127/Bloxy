@@ -6,134 +6,123 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 local TweenService = game:GetService("TweenService")
 local UIS = game:GetService("UserInputService")
 
--- ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "SapiHub"
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
--- Blur
 local Blur = Instance.new("BlurEffect")
 Blur.Size = 0
 Blur.Parent = game.Lighting
 
 local function blurOn()
-    TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 12}):Play()
+    TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 10}):Play()
 end
 local function blurOff()
     TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 0}):Play()
 end
 
--- Main Frame with border & gradient
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 400, 0, 340)
-MainFrame.Position = UDim2.new(0.5, -200, 0.35, 0)
-MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-MainFrame.BorderSizePixel = 2
-MainFrame.BorderColor3 = Color3.fromRGB(80, 80, 80)
+MainFrame.Size = UDim2.new(0, 380, 0, 320)
+MainFrame.Position = UDim2.new(0.5, -190, 0.35, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.BackgroundTransparency = 0.15
 MainFrame.Parent = ScreenGui
-
-local MainGradient = Instance.new("UIGradient")
-MainGradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 40)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 20, 20))
-}
-MainGradient.Rotation = 45
-MainGradient.Parent = MainFrame
 
 local scale = Instance.new("UIScale")
 scale.Parent = MainFrame
-scale.Scale = (UIS.TouchEnabled and not UIS.KeyboardEnabled) and 0.7 or 1
 
--- Rounded corners
+if UIS.TouchEnabled and not UIS.KeyboardEnabled then
+    scale.Scale = 0.65
+else
+    scale.Scale = 1
+end
+
 local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(0, 15)
+Corner.CornerRadius = UDim.new(0, 12)
 Corner.Parent = MainFrame
 
--- Shadow
 local Shadow = Instance.new("ImageLabel")
 Shadow.Name = "Shadow"
 Shadow.Parent = MainFrame
 Shadow.AnchorPoint = Vector2.new(0.5, 0.5)
-Shadow.Position = UDim2.new(0.5, 0, 0.5, 6)
-Shadow.Size = UDim2.new(1, 40, 1, 40)
+Shadow.Position = UDim2.new(0.5, 0, 0.5, 4)
+Shadow.Size = UDim2.new(1, 30, 1, 30)
 Shadow.BackgroundTransparency = 1
 Shadow.Image = "rbxassetid://6015897843"
-Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-Shadow.ImageTransparency = 0.5
+Shadow.ImageColor3 = Color3.new(0, 0, 0)
+Shadow.ImageTransparency = 0.45
 Shadow.ScaleType = Enum.ScaleType.Slice
 Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
 
--- Title
 local Title = Instance.new("TextLabel")
 Title.Name = "Title"
-Title.Size = UDim2.new(1, 0, 0, 50)
-Title.BackgroundTransparency = 0
-Title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-Title.BorderSizePixel = 1
-Title.BorderColor3 = Color3.fromRGB(100, 100, 100)
+Title.Size = UDim2.new(1, 0, 0, 42)
+Title.BackgroundTransparency = 1
 Title.Font = Enum.Font.GothamBold
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextColor3 = Color3.new(1, 1, 1)
 Title.TextScaled = true
 Title.Text = "Sapi Hub | Auto Bounty"
 Title.Parent = MainFrame
-
 local TitleCorner = Instance.new("UICorner")
-TitleCorner.CornerRadius = UDim.new(0, 15)
+TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = Title
 
--- Message
 local Message = Instance.new("TextLabel")
 Message.Name = "Message"
 Message.Parent = MainFrame
-Message.Position = UDim2.new(0, 12, 0, 60)
-Message.Size = UDim2.new(1, -24, 0, 28)
+Message.Position = UDim2.new(0, 12, 0, 55)
+Message.Size = UDim2.new(1, -24, 0, 25)
 Message.BackgroundTransparency = 1
 Message.TextColor3 = Color3.fromRGB(220, 220, 220)
 Message.Font = Enum.Font.GothamSemibold
 Message.TextScaled = true
 Message.Text = ">_<"
 
--- Target List Label
 local TargetListLabel = Instance.new("TextLabel")
 TargetListLabel.Name = "TargetListLabel"
 TargetListLabel.Parent = MainFrame
-TargetListLabel.Position = UDim2.new(0, 12, 0, 95)
-TargetListLabel.Size = UDim2.new(1, -24, 0, 30)
-TargetListLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-TargetListLabel.BorderSizePixel = 1
-TargetListLabel.BorderColor3 = Color3.fromRGB(100, 100, 100)
+TargetListLabel.Position = UDim2.new(0, 12, 0, 85)
+TargetListLabel.Size = UDim2.new(1, -24, 0, 25)
+TargetListLabel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 TargetListLabel.TextColor3 = Color3.new(1, 1, 1)
 TargetListLabel.TextScaled = true
 TargetListLabel.Text = "Targets: none"
 local TC1 = Instance.new("UICorner")
-TC1.CornerRadius = UDim.new(0, 12)
+TC1.CornerRadius = UDim.new(0, 10)
 TC1.Parent = TargetListLabel
 
--- Current Target Label
 local CurrentTargetLabel = Instance.new("TextLabel")
 CurrentTargetLabel.Name = "CurrentTargetLabel"
 CurrentTargetLabel.Parent = MainFrame
-CurrentTargetLabel.Position = UDim2.new(0, 12, 0, 135)
-CurrentTargetLabel.Size = UDim2.new(1, -24, 0, 30)
-CurrentTargetLabel.BackgroundColor3 = Color3.fromRGB(60, 140, 255)
-CurrentTargetLabel.BorderSizePixel = 1
-CurrentTargetLabel.BorderColor3 = Color3.fromRGB(100, 200, 255)
+CurrentTargetLabel.Position = UDim2.new(0, 12, 0, 115)
+CurrentTargetLabel.Size = UDim2.new(1, -24, 0, 25)
+CurrentTargetLabel.BackgroundColor3 = Color3.fromRGB(50, 120, 255)
 CurrentTargetLabel.TextColor3 = Color3.new(1, 1, 1)
 CurrentTargetLabel.TextScaled = true
 CurrentTargetLabel.Text = "Current Target: none"
 local TC2 = Instance.new("UICorner")
-TC2.CornerRadius = UDim.new(0, 12)
+TC2.CornerRadius = UDim.new(0, 10)
 TC2.Parent = CurrentTargetLabel
 
--- Notification system
+function UI.UpdateTargetsList(list)
+    if typeof(list) == "table" then
+        TargetListLabel.Text = "Targets: " .. table.concat(list, ", ")
+    else
+        TargetListLabel.Text = "Targets: " .. tostring(list or "none")
+    end
+end
+function UI.SetTarget(name)
+    CurrentTargetLabel.Text = "Current Target: " .. tostring(name or "none")
+end
+
 local NotifyColors = {
-    success = Color3.fromRGB(60, 220, 90),
+    success = Color3.fromRGB(60, 200, 90),
     error = Color3.fromRGB(220, 80, 80),
     warn = Color3.fromRGB(240, 180, 70),
-    info = Color3.fromRGB(80, 180, 240)
+    info = Color3.fromRGB(80, 170, 240)
 }
 
 function UI.ShowNotification(text, nType)
@@ -141,12 +130,14 @@ function UI.ShowNotification(text, nType)
     if not UI.NotificationLabel then
         UI.NotificationLabel = Instance.new("TextLabel")
         UI.NotificationLabel.Parent = MainFrame
-        UI.NotificationLabel.Size = UDim2.new(1, -24, 0, 32)
-        UI.NotificationLabel.Position = UDim2.new(0, 12, 0, 180)
+        UI.NotificationLabel.Size = UDim2.new(1, -24, 0, 30)
+        UI.NotificationLabel.Position = UDim2.new(0, 12, 0, 145)
+        UI.NotificationLabel.TextColor3 = Color3.new(1, 1, 1)
         UI.NotificationLabel.Font = Enum.Font.GothamMedium
         UI.NotificationLabel.TextScaled = true
+
         local C = Instance.new("UICorner", UI.NotificationLabel)
-        C.CornerRadius = UDim.new(0, 12)
+        C.CornerRadius = UDim.new(0, 10)
     end
     local Note = UI.NotificationLabel
     Note.BackgroundColor3 = NotifyColors[nType]
@@ -168,30 +159,99 @@ function UI.ShowNotification(text, nType)
     end)
 end
 
--- Buttons with gradient & border
-local function createButton(name, posX, posY, sizeX, sizeY, bgColor, text)
-    local btn = Instance.new("TextButton")
-    btn.Name = name
-    btn.Parent = MainFrame
-    btn.Size = UDim2.new(0, sizeX, 0, sizeY)
-    btn.Position = UDim2.new(0, posX, 0, posY)
-    btn.BackgroundColor3 = bgColor
-    btn.BorderSizePixel = 1
-    btn.BorderColor3 = Color3.fromRGB(100, 100, 100)
-    btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.Font = Enum.Font.GothamBold
-    btn.TextScaled = true
-    btn.Text = text
-    local corner = Instance.new("UICorner", btn)
-    corner.CornerRadius = UDim.new(0, 12)
-    return btn
+local StatsFrame = Instance.new("Frame")
+StatsFrame.Name = "StatsFrame"
+StatsFrame.Parent = MainFrame
+StatsFrame.Size = UDim2.new(1, -24, 0, 80)
+StatsFrame.Position = UDim2.new(0, 12, 0, 180)
+StatsFrame.BackgroundTransparency = 1
+
+local function createStatLabel(name, posY)
+    local label = Instance.new("TextLabel")
+    label.Name = name
+    label.Parent = StatsFrame
+    label.Size = UDim2.new(1, 0, 0, 25)
+    label.Position = UDim2.new(0, 0, 0, posY)
+    label.BackgroundTransparency = 0.3
+    label.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.Font = Enum.Font.GothamMedium
+    label.TextScaled = true
+    label.Text = name .. ": 0"
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = label
+    return label
 end
 
-local SkipButton = createButton("SkipButton", 12, 280, 120, 35, Color3.fromRGB(200, 60, 60), "Skip Player")
-local SpectateButton = createButton("SpectateButton", 150, 280, 150, 35, Color3.fromRGB(60, 140, 255), "Spectate: OFF")
+local EarnedLabel = createStatLabel("Earned", 0)
+local TotalLabel = createStatLabel("Total Earned", 30)
+local BountyLabel = createStatLabel("Bounty/Honor", 60)
 
--- Dragging (same as before)
+function UI.UpdateStats(Earned, TotalEarned, Bounty)
+    EarnedLabel.Text = "Earned: " .. tostring(Earned)
+    TotalLabel.Text = "Total Earned: " .. tostring(TotalEarned)
+    BountyLabel.Text = "Bounty/Honor: " .. tostring(Bounty)
+end
+
+local SkipButton = Instance.new("TextButton")
+SkipButton.Name = "SkipButton"
+SkipButton.Parent = MainFrame
+SkipButton.Size = UDim2.new(0, 100, 0, 25)
+SkipButton.Position = UDim2.new(0, 12, 0, 265)
+SkipButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+SkipButton.TextColor3 = Color3.new(1, 1, 1)
+SkipButton.Font = Enum.Font.GothamBold
+SkipButton.TextScaled = true
+SkipButton.Text = "Skip Player"
+local SkipButtonCorner = Instance.new("UICorner")
+SkipButtonCorner.CornerRadius = UDim.new(0, 10)
+SkipButtonCorner.Parent = SkipButton
+
+SkipButton.MouseButton1Click:Connect(function()
+    if getgenv().SkipPlayer then
+        getgenv().SkipPlayer()
+        if getgenv().checked then
+            UI.UpdateTargetsList(getgenv().checked)
+        end
+    end
+end)
+
+local SpectateButton = Instance.new("TextButton")
+SpectateButton.Name = "SpectateButton"
+SpectateButton.Parent = MainFrame
+SpectateButton.Size = UDim2.new(0, 140, 0, 35)
+SpectateButton.Position = UDim2.new(0, 150, 0, 265)
+SpectateButton.BackgroundColor3 = Color3.fromRGB(50, 120, 255)
+SpectateButton.TextColor3 = Color3.new(1, 1, 1)
+SpectateButton.Font = Enum.Font.GothamBold
+SpectateButton.TextScaled = true
+SpectateButton.Text = "Spectate: OFF"
+
+local SpectateCorner = Instance.new("UICorner")
+SpectateCorner.CornerRadius = UDim.new(0, 10)
+SpectateCorner.Parent = SpectateButton
+
+SpectateButton.MouseButton1Click:Connect(function()
+    getgenv().SpectateTarget = not getgenv().SpectateTarget
+
+    if getgenv().SpectateTarget then
+        SpectateButton.BackgroundColor3 = Color3.fromRGB(80, 200, 80)
+        SpectateButton.Text = "Spectate: ON"
+    else
+        SpectateButton.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
+        SpectateButton.Text = "Spectate: OFF"
+
+        local lp = game.Players.LocalPlayer
+        if lp.Character and lp.Character:FindFirstChild("Humanoid") then
+            workspace.CurrentCamera.CameraSubject = lp.Character.Humanoid
+        end
+    end
+end)
+
+-- DRAGGING
 local dragging, dragStart, startPos = false, nil, nil
+
 local function startDrag(input)
     dragging = true
     dragStart = input.Position
