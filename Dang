@@ -238,6 +238,11 @@ SpectateButton.MouseButton1Click:Connect(function()
     if getgenv().SpectateTarget then
         SpectateButton.BackgroundColor3 = Color3.fromRGB(80, 200, 80)
         SpectateButton.Text = "Spectate: ON"
+
+        if getgenv().targ and getgenv().targ.Character then
+            workspace.CurrentCamera.CameraSubject = getgenv().targ.Character
+        end
+
     else
         SpectateButton.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
         SpectateButton.Text = "Spectate: OFF"
