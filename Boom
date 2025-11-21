@@ -106,8 +106,6 @@ if not getgenv().Setting.SafeHealth then
     }
 end
 
-getgenv().Setting.Another.V3
-
 if not getgenv().Setting.Another then
     getgenv().Setting.Another = {
         ["V3"] = true,
