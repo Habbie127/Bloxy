@@ -6,17 +6,16 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 local TweenService = game:GetService("TweenService")
 local UIS = game:GetService("UserInputService")
 
--- ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "SapiHub"
+ScreenGui.Name = "MHub"
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
--- Blur effect
 local Blur = Instance.new("BlurEffect")
 Blur.Size = 0
 Blur.Parent = game.Lighting
+local minimized = false
 
 local function blurOn()
     TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 10}):Play()
@@ -25,7 +24,14 @@ local function blurOff()
     TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 0}):Play()
 end
 
--- Main Frame
+local function ApplyBorder(obj, thickness, color)
+    local stroke = Instance.new("UIStroke")
+    stroke.Thickness = thickness or 2
+    stroke.Color = color or Color3.fromRGB(255, 255, 255)
+    stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    stroke.Parent = obj
+end
+
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 380, 0, 320)
@@ -33,6 +39,12 @@ MainFrame.Position = UDim2.new(0.5, -190, 0.35, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.BackgroundTransparency = 0.15
 MainFrame.Parent = ScreenGui
+local Glow = Instance.new("UIStroke")
+Glow.Parent = MainFrame
+Glow.Thickness = 6
+Glow.Color = Color3.fromRGB(100, 140, 255)
+Glow.Transparency = 0.6
+Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Outline
 
 local scale = Instance.new("UIScale")
 scale.Parent = MainFrame
@@ -47,7 +59,20 @@ local Corner = Instance.new("UICorner")
 Corner.CornerRadius = UDim.new(0, 12)
 Corner.Parent = MainFrame
 
--- Shadow
+local MiniIcon = Instance.new("ImageButton")
+MiniIcon.Name = "MiniIcon"
+MiniIcon.Parent = ScreenGui
+MiniIcon.Size = UDim2.new(0, 55, 0, 55)
+MiniIcon.Position = UDim2.new(0.5, -27, 0.8, 0)
+MiniIcon.BackgroundTransparency = 1
+MiniIcon.Image = "rbxassetid://6015897843"
+MiniIcon.Visible = false
+
+ApplyBorder(MiniIcon, 2)
+local MiniCorner = Instance.new("UICorner")
+MiniCorner.CornerRadius = UDim.new(0, 10)
+MiniCorner.Parent = MiniIcon
+
 local Shadow = Instance.new("ImageLabel")
 Shadow.Name = "Shadow"
 Shadow.Parent = MainFrame
@@ -61,21 +86,57 @@ Shadow.ImageTransparency = 0.45
 Shadow.ScaleType = Enum.ScaleType.Slice
 Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
 
--- Title
 local Title = Instance.new("TextLabel")
 Title.Name = "Title"
 Title.Size = UDim2.new(1, 0, 0, 42)
-Title.BackgroundColor3 = Color3.fromRGB(255, 65, 65)
+Title.BackgroundTransparency = 1
 Title.Font = Enum.Font.GothamBold
 Title.TextColor3 = Color3.new(1, 1, 1)
 Title.TextScaled = true
-Title.Text = "Sapi Hub | Auto Bounty"
+Title.Text = "MeeTsuo | AutoBounty"
 Title.Parent = MainFrame
 local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = Title
+ApplyBorder(Title, 2, Color3.fromRGB(255,255,255))
 
--- Message
+local MinButton = Instance.new("ImageButton")
+MinButton.Name = "MinimizeButton"
+MinButton.Parent = MainFrame
+MinButton.Size = UDim2.new(0, 28, 0, 28)
+MinButton.Position = UDim2.new(1, -35, 0, 7)
+MinButton.BackgroundTransparency = 1
+MinButton.Image = "rbxassetid://6015897843"
+MinButton.ImageColor3 = Color3.fromRGB(255,255,255)
+
+MinButton.MouseButton1Click:Connect(function()
+    if minimized then return end
+    minimized = true
+
+    TweenService:Create(MainFrame, TweenInfo.new(0.25), {Size = UDim2.new(0,0,0,0), Position = UDim2.new(MainFrame.Position.X.Scale, MainFrame.Position.X.Offset, 1.2, 0)}):Play()
+
+    task.delay(0.25, function()
+        MainFrame.Visible = false
+        MiniIcon.Visible = true
+    end)
+end)
+
+MiniIcon.MouseButton1Click:Connect(function()
+    if not minimized then return end
+    minimized = false
+
+    MiniIcon.Visible = false
+    MainFrame.Visible = true
+
+    MainFrame.Size = UDim2.new(0, 380, 0, 320)
+    MainFrame.Position = UDim2.new(0.5, -190, 0.35, 0)
+end)
+
+ApplyBorder(MinButton, 2)
+local MinCorner = Instance.new("UICorner")
+MinCorner.CornerRadius = UDim.new(0, 6)
+MinCorner.Parent = MinButton
+
 local Message = Instance.new("TextLabel")
 Message.Name = "Message"
 Message.Parent = MainFrame
@@ -85,34 +146,36 @@ Message.BackgroundTransparency = 1
 Message.TextColor3 = Color3.fromRGB(220, 220, 220)
 Message.Font = Enum.Font.GothamSemibold
 Message.TextScaled = true
-Message.Text = "Waiting..."
+Message.Text = ">__<"
+ApplyBorder(Message, 2, Color3.fromRGB(200,200,200))
 
--- Targets
 local TargetListLabel = Instance.new("TextLabel")
 TargetListLabel.Name = "TargetListLabel"
 TargetListLabel.Parent = MainFrame
 TargetListLabel.Position = UDim2.new(0, 12, 0, 85)
 TargetListLabel.Size = UDim2.new(1, -24, 0, 25)
-TargetListLabel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+TargetListLabel.BackgroundTransparency = 1
 TargetListLabel.TextColor3 = Color3.new(1, 1, 1)
 TargetListLabel.TextScaled = true
 TargetListLabel.Text = "Targets: none"
 local TC1 = Instance.new("UICorner")
 TC1.CornerRadius = UDim.new(0, 10)
 TC1.Parent = TargetListLabel
+ApplyBorder(TargetListLabel, 2)
 
 local CurrentTargetLabel = Instance.new("TextLabel")
 CurrentTargetLabel.Name = "CurrentTargetLabel"
 CurrentTargetLabel.Parent = MainFrame
 CurrentTargetLabel.Position = UDim2.new(0, 12, 0, 115)
 CurrentTargetLabel.Size = UDim2.new(1, -24, 0, 25)
-CurrentTargetLabel.BackgroundColor3 = Color3.fromRGB(50, 120, 255)
+CurrentTargetLabel.BackgroundTransparency = 1
 CurrentTargetLabel.TextColor3 = Color3.new(1, 1, 1)
 CurrentTargetLabel.TextScaled = true
 CurrentTargetLabel.Text = "Current Target: none"
 local TC2 = Instance.new("UICorner")
 TC2.CornerRadius = UDim.new(0, 10)
 TC2.Parent = CurrentTargetLabel
+ApplyBorder(CurrentTargetLabel, 2)
 
 function UI.UpdateTargetsList(list)
     if typeof(list) == "table" then
@@ -121,44 +184,44 @@ function UI.UpdateTargetsList(list)
         TargetListLabel.Text = "Targets: " .. tostring(list or "none")
     end
 end
+
 function UI.SetTarget(name)
     CurrentTargetLabel.Text = "Current Target: " .. tostring(name or "none")
 end
 
--- Notifications
 local NotifyColors = {
-    success = Color3.fromRGB(60, 200, 90),
-    error   = Color3.fromRGB(220, 80, 80),
-    warn    = Color3.fromRGB(240, 180, 70),
-    info    = Color3.fromRGB(80, 170, 240),
+    success = Color3.new(60, 200, 90),
+    error = Color3.new(220, 80, 80),
+    warn = Color3.new(240, 180, 70),
+    info = Color3.new(80, 170, 240),
 }
+
+local PermanentNote = Instance.new("TextLabel")
+PermanentNote.Parent = MainFrame
+PermanentNote.Size = UDim2.new(1, -24, 0, 30)
+PermanentNote.Position = UDim2.new(0, 12, 0, 145)
+PermanentNote.TextColor3 = NotifyColors.info
+PermanentNote.Font = Enum.Font.GothamMedium
+PermanentNote.TextScaled = true
+PermanentNote.Text = "No News"
+PermanentNote.BackgroundTransparency = 1
+PermanentNote.TextTransparency = 0
+ApplyBorder(PermanentNote, 2)
+
+local C = Instance.new("UICorner", PermanentNote)
+C.CornerRadius = UDim.new(0, 10)
 
 function UI.ShowNotification(text, nType)
     nType = nType or "info"
-    local Note = Instance.new("TextLabel")
-    Note.Parent = MainFrame
-    Note.Size = UDim2.new(1, -24, 0, 30)
-    Note.Position = UDim2.new(0, 12, 0, 145)
-    Note.BackgroundColor3 = NotifyColors[nType]
-    Note.TextColor3 = Color3.new(1, 1, 1)
-    Note.Font = Enum.Font.GothamMedium
-    Note.TextScaled = true
-    Note.Text = text
-    local C = Instance.new("UICorner", Note)
-    C.CornerRadius = UDim.new(0, 10)
 
-    task.spawn(function()
-        task.wait(2)
-        for i = 1, 20 do
-            Note.TextTransparency = i/20
-            Note.BackgroundTransparency = i/20
-            task.wait(0.03)
-        end
-        Note:Destroy()
-    end)
+    if text == nil or text == "" then
+        text = "No News"
+    end
+
+    PermanentNote.Text = text
+    PermanentNote.TextColor3 = NotifyColors[nType]
 end
 
--- Stats (inside main frame)
 local StatsFrame = Instance.new("Frame")
 StatsFrame.Name = "StatsFrame"
 StatsFrame.Parent = MainFrame
@@ -172,12 +235,13 @@ local function createStatLabel(name, posY)
     label.Parent = StatsFrame
     label.Size = UDim2.new(1, 0, 0, 25)
     label.Position = UDim2.new(0, 0, 0, posY)
-    label.BackgroundTransparency = 0.3
+    label.BackgroundTransparency = 1
     label.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     label.TextColor3 = Color3.new(1, 1, 1)
     label.Font = Enum.Font.GothamMedium
     label.TextScaled = true
     label.Text = name .. ": 0"
+    ApplyBorder(label, 2, Color3.fromRGB(255,255,255))
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 8)
     corner.Parent = label
@@ -194,20 +258,21 @@ function UI.UpdateStats(Earned, TotalEarned, Bounty)
     BountyLabel.Text = "Bounty/Honor: " .. tostring(Bounty)
 end
 
--- Skip Button
 local SkipButton = Instance.new("TextButton")
 SkipButton.Name = "SkipButton"
 SkipButton.Parent = MainFrame
 SkipButton.Size = UDim2.new(0, 120, 0, 35)
 SkipButton.Position = UDim2.new(0, 12, 0, 265)
-SkipButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+SkipButton.BackgroundTransparency = 1
 SkipButton.TextColor3 = Color3.new(1, 1, 1)
 SkipButton.Font = Enum.Font.GothamBold
 SkipButton.TextScaled = true
 SkipButton.Text = "Skip Player"
+ApplyBorder(SkipButton, 2)
 local SkipButtonCorner = Instance.new("UICorner")
 SkipButtonCorner.CornerRadius = UDim.new(0, 10)
 SkipButtonCorner.Parent = SkipButton
+
 
 SkipButton.MouseButton1Click:Connect(function()
     if getgenv().SkipPlayer then
@@ -223,11 +288,12 @@ SpectateButton.Name = "SpectateButton"
 SpectateButton.Parent = MainFrame
 SpectateButton.Size = UDim2.new(0, 140, 0, 35)
 SpectateButton.Position = UDim2.new(0, 150, 0, 265)
-SpectateButton.BackgroundColor3 = Color3.fromRGB(50, 120, 255)
+SpectateButton.BackgroundTransparency = 1
 SpectateButton.TextColor3 = Color3.new(1, 1, 1)
 SpectateButton.Font = Enum.Font.GothamBold
 SpectateButton.TextScaled = true
 SpectateButton.Text = "Spectate: OFF"
+ApplyBorder(SpectateButton, 2)
 
 local SpectateCorner = Instance.new("UICorner")
 SpectateCorner.CornerRadius = UDim.new(0, 10)
@@ -255,8 +321,6 @@ SpectateButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- DRAGGING
-local UIS = game:GetService("UserInputService")
 local dragging, dragStart, startPos = false, nil, nil
 
 local function startDrag(input)
@@ -290,5 +354,34 @@ MainFrame.InputBegan:Connect(function(input)
     end
 end)
 UIS.InputChanged:Connect(updateDrag)
+
+local draggingMini = false
+local dragStartMini, startPosMini
+
+MiniIcon.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        draggingMini = true
+        dragStartMini = input.Position
+        startPosMini = MiniIcon.Position
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if draggingMini and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStartMini
+        MiniIcon.Position = UDim2.new(
+            startPosMini.X.Scale,
+            startPosMini.X.Offset + delta.X,
+            startPosMini.Y.Scale,
+            startPosMini.Y.Offset + delta.Y
+        )
+    end
+end)
+
+MiniIcon.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        draggingMini = false
+    end
+end)
 
 return UI
