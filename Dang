@@ -24,10 +24,10 @@ local function blurOff()
     TweenService:Create(Blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {Size = 0}):Play()
 end
 
-local function ApplyBorder(obj, thickness, color)
+local function ApplyBorder(obj)
     local stroke = Instance.new("UIStroke")
-    stroke.Thickness = thickness or 2
-    stroke.Color = color or Color3.fromRGB(21, 132, 173)
+    stroke.Thickness = 2
+    stroke.Color = Color3.fromRGB(21, 132, 173)
     stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     stroke.Parent = obj
 end
@@ -72,7 +72,7 @@ UIGradient.Parent = Mainline
 
 local MiniIcon = Instance.new("ImageButton")
 MiniIcon.Name = "MiniIcon"
-MiniIcon.Parent = ScreenGui
+MiniIcon.Parent = MainFrame
 MiniIcon.Size = UDim2.new(0, 38, 0, 33)
 MiniIcon.Position = UDim2.new(0.12226, -27, 0.20691, 0)
 MiniIcon.BackgroundTransparency = 1
@@ -98,19 +98,6 @@ Shadow.ImageTransparency = 0.35
 Shadow.ScaleType = Enum.ScaleType.Slice
 Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
 
-local IconShadow = Instance.new("ImageLabel")
-IconShadow.Name = "IconShadow"
-IconShadow.Parent = Shadow
-IconShadow.AnchorPoint = Vector2.new(0.5, 0.5)
-IconShadow.Position = UDim2.new(0.49912, 0, 0.40759, 4)
-IconShadow.Size = UDim2.new(1.06831, 30, 1.24952, 30)
-IconShadow.BackgroundTransparency = 1
-IconShadow.Image = "rbxassetid://6015897843"
-IconShadow.ImageColor3 = Color3.new(0, 0, 0)
-IconShadow.ImageTransparency = 0.35
-IconShadow.ScaleType = Enum.ScaleType.Slice
-IconShadow.SliceCenter = Rect.new(49, 49, 450, 450)
-
 local Title = Instance.new("TextLabel")
 Title.Name = "Title"
 Title.Size = UDim2.new(0.53965, 0, -0.05283, 42)
@@ -125,7 +112,7 @@ Title.Parent = MainFrame
 local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = Title
-ApplyBorder(Title, 2, Color3.fromRGB(255,255,255))
+ApplyBorder(Title)
 
 local MinButton = Instance.new("ImageButton")
 MinButton.Name = "MinimizeButton"
@@ -154,15 +141,25 @@ MiniIcon.MouseButton1Click:Connect(function()
 
     MiniIcon.Visible = false
     MainFrame.Visible = true
-
-    MainFrame.Size = UDim2.new(0, 380, 0, 320)
-    MainFrame.Position = UDim2.new(0.5, -190, 0.35, 0)
 end)
 
-ApplyBorder(MinButton, 2)
+ApplyBorder(MinButton)
 local MinCorner = Instance.new("UICorner")
 MinCorner.CornerRadius = UDim.new(0, 6)
 MinCorner.Parent = MinButton
+
+local IconShadow = Instance.new("ImageLabel")
+IconShadow.Name = "IconShadow"
+IconShadow.Parent = MinButton
+IconShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+IconShadow.Position = UDim2.new(0.49912, 0, 0.40759, 4)
+IconShadow.Size = UDim2.new(1.06831, 30, 1.24952, 30)
+IconShadow.BackgroundTransparency = 1
+IconShadow.Image = "rbxassetid://6015897843"
+IconShadow.ImageColor3 = Color3.new(0, 0, 0)
+IconShadow.ImageTransparency = 0.35
+IconShadow.ScaleType = Enum.ScaleType.Slice
+IconShadow.SliceCenter = Rect.new(49, 49, 450, 450)
 
 local Message = Instance.new("TextLabel")
 Message.Name = "Message"
@@ -190,7 +187,7 @@ TargetListLabel.Text = "Targets: none"
 local TC1 = Instance.new("UICorner")
 TC1.CornerRadius = UDim.new(0, 10)
 TC1.Parent = TargetListLabel
-ApplyBorder(TargetListLabel, 2)
+ApplyBorder(TargetListLabel)
 
 local CurrentTargetLabel = Instance.new("TextLabel")
 CurrentTargetLabel.Name = "CurrentTargetLabel"
@@ -206,7 +203,7 @@ CurrentTargetLabel.Text = "Current Target: none"
 local TC2 = Instance.new("UICorner")
 TC2.CornerRadius = UDim.new(0, 10)
 TC2.Parent = CurrentTargetLabel
-ApplyBorder(CurrentTargetLabel, 2)
+ApplyBorder(CurrentTargetLabel)
 
 function UI.UpdateTargetsList(list)
     if typeof(list) == "table" then
@@ -238,7 +235,7 @@ PermanentNote.TextWrapped = true
 PermanentNote.Text = "No News"
 PermanentNote.BackgroundTransparency = 1
 PermanentNote.TextTransparency = 0
-ApplyBorder(PermanentNote, 2)
+ApplyBorder(PermanentNote)
 
 local C = Instance.new("UICorner", PermanentNote)
 C.CornerRadius = UDim.new(0, 10)
@@ -267,7 +264,7 @@ local function createStatLabel(name, posY)
     label.TextScaled = true
     label.TextWrapped = true
     label.Text = name .. ": 0"
-    ApplyBorder(label, 2, Color3.fromRGB(255,255,255))
+    ApplyBorder(label)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 8)
     corner.Parent = label
@@ -295,11 +292,10 @@ SkipButton.Font = Enum.Font.Fondamento, Enum.FontStyle.Italic
 SkipButton.TextScaled = true
 SkipButton.TextWrapped = true
 SkipButton.Text = "Skip Player"
-ApplyBorder(SkipButton, 2)
+ApplyBorder(SkipButton)
 local SkipButtonCorner = Instance.new("UICorner")
 SkipButtonCorner.CornerRadius = UDim.new(0, 10)
 SkipButtonCorner.Parent = SkipButton
-
 
 SkipButton.MouseButton1Click:Connect(function()
     if getgenv().SkipPlayer then
@@ -321,7 +317,7 @@ SpectateButton.Font = Enum.Font.Fondamento, Enum.FontStyle.Italic
 SpectateButton.TextScaled = true
 SpectateButton.TextWrapped = true
 SpectateButton.Text = "Spectate: OFF"
-ApplyBorder(SpectateButton, 2)
+ApplyBorder(SpectateButton)
 
 local SpectateCorner = Instance.new("UICorner")
 SpectateCorner.CornerRadius = UDim.new(0, 10)
@@ -381,7 +377,13 @@ MainFrame.InputBegan:Connect(function(input)
         startDrag(input)
     end
 end)
-UIS.InputChanged:Connect(updateDrag)
+
+UIS.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement
+    or input.UserInputType == Enum.UserInputType.Touch then
+        updateDrag(input)
+    end
+end)
 
 local draggingMini = false
 local dragStartMini, startPosMini
@@ -395,7 +397,7 @@ MiniIcon.InputBegan:Connect(function(input)
 end)
 
 UIS.InputChanged:Connect(function(input)
-    if draggingMini and input.UserInputType == Enum.UserInputType.MouseMovement then
+    if draggingMini and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
         local delta = input.Position - dragStartMini
         MiniIcon.Position = UDim2.new(
             startPosMini.X.Scale,
