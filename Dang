@@ -32,21 +32,10 @@ local function ApplyBorder(obj)
     stroke.Parent = obj
 end
 
-local function ApplyScale(obj)
-    local scale = Instance.new("UIScale")
-	scale.Parent = obj
-
-	if UIS.TouchEnabled and not UIS.KeyboardEnabled then
-	    scale.Scale = 0.65
-	else
-	    scale.Scale = 1
-	end
-end
-
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 380, 0, 320)
-MainFrame.Position = UDim2.new(0.5, -190, 0.35, 0)
+MainFrame.Size = UDim2.new(0.30, 0, 0.30, 0)
+MainFrame.Position = UDim2.new(0.5, 0, 0.35, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
 MainFrame.BackgroundTransparency = 1
 MainFrame.Parent = ScreenGui
@@ -56,17 +45,24 @@ Glow.Thickness = 4.7
 Glow.Color = Color3.fromRGB(11, 117, 255)
 Glow.Transparency = 0.59
 Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-ApplyScale(MainFrame)
+
+local scale = Instance.new("UIScale")
+scale.Parent = MainFrame
+
+if UIS.TouchEnabled and not UIS.KeyboardEnabled then
+    scale.Scale = 0.65
+else
+    scale.Scale = 1
+end
 
 local Mainline = Instance.new("Frame")
 Mainline.Name = "Mainline"
-Mainline.Size = UDim2.new(0, 456, 0, 3)
-Mainline.Position = UDim2.new(-0.0022, 0, 0.18214, 0)
+Mainline.Size = UDim2.new(1.20, 0, 0.01, 0)
+Mainline.Position = UDim2.new(-0.10, 0, 0.18, 0)
 Mainline.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Mainline.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Mainline.BackgroundTransparency = 0.45
 Mainline.Parent = MainFrame
-ApplyScale(Mainline)
 
 local UIGradient = Instance.new("UIGradient")
 UIGradient.Name = "UIGradient"
@@ -77,27 +73,26 @@ UIGradient.Parent = Mainline
 local MiniIcon = Instance.new("ImageButton")
 MiniIcon.Name = "MiniIcon"
 MiniIcon.Parent = ScreenGui
-MiniIcon.Size = UDim2.new(0, 38, 0, 33)
-MiniIcon.Position = UDim2.new(0.12226, -27, 0.20691, 0)
+MiniIcon.Position = UDim2.new(0.12, 0, 0.21, 0)
+MiniIcon.Size = UDim2.new(0.05, 0, 0.06, 0)
 MiniIcon.BackgroundTransparency = 1
 MiniIcon.ImageTransparency = 1
 MiniIcon.Image = "rbxassetid://73200981173057"
 MiniIcon.Visible = false
-ApplyScale(MiniIcon)
 
 local IconShadow = Instance.new("ImageLabel")
 IconShadow.Name = "IconShadow"
 IconShadow.Parent = MiniIcon
 IconShadow.AnchorPoint = Vector2.new(0.5, 0.5)
-IconShadow.Position = UDim2.new(0.49912, 0, 0.40759, 4)
-IconShadow.Size = UDim2.new(1.06831, 30, 1.24952, 30)
+IconShadow.Position = UDim2.new(0.12, 0, 0.21, 0)
+IconShadow.Size = UDim2.new(0.05, 0, 0.06, 0)
 IconShadow.BackgroundTransparency = 1
 IconShadow.Image = "rbxassetid://6015897843"
 IconShadow.ImageColor3 = Color3.new(0, 0, 0)
 IconShadow.ImageTransparency = 0.35
 IconShadow.ScaleType = Enum.ScaleType.Slice
 IconShadow.SliceCenter = Rect.new(49, 49, 450, 450)
-ApplyScale(IconShadow)
+
 ApplyBorder(MiniIcon, 2)
 local MiniCorner = Instance.new("UICorner")
 MiniCorner.CornerRadius = UDim.new(0, 10)
@@ -115,11 +110,11 @@ Shadow.ImageColor3 = Color3.new(0, 0, 0)
 Shadow.ImageTransparency = 0.35
 Shadow.ScaleType = Enum.ScaleType.Slice
 Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
-ApplyScale(Shadow)
 
 local Title = Instance.new("TextLabel")
 Title.Name = "Title"
-Title.Size = UDim2.new(0.53965, 0, -0.05283, 42)
+Title.Size = UDim2.new(0.55, 0, 0.14, 0)
+Title.Position = UDim2.new(0.05, 0, 0.02, 0)
 Title.BackgroundTransparency = 1
 Title.Font = Enum.Font.Fondamento, Enum.FontWeight.Bold, Enum.FontStyle.Italic
 Title.TextColor3 = Color3.fromRGB(50, 174, 255)
@@ -132,13 +127,12 @@ local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = Title
 ApplyBorder(Title)
-ApplyScale(Title)
 
 local MinButton = Instance.new("ImageButton")
 MinButton.Name = "MinimizeButton"
 MinButton.Parent = MainFrame
-MinButton.Size = UDim2.new(0, 37, 0, 28)
-MinButton.Position = UDim2.new(0.88106, -35, 0.03733, 7)
+MinButton.Size = UDim2.new(0.10, 0, 0.09, 0)
+MinButton.Position = UDim2.new(0.90, 0, 0.05, 0)
 MinButton.BackgroundTransparency = 1
 MinButton.Image = "rbxassetid://73200981173057"
 MinButton.ImageColor3 = Color3.fromRGB(255,255,255)
@@ -162,9 +156,8 @@ MiniIcon.MouseButton1Click:Connect(function()
     MiniIcon.Visible = false
     MainFrame.Visible = true
 end)
-ApplyScale(MinButton)
-ApplyBorder(MinButton)
 
+ApplyBorder(MinButton)
 local MinCorner = Instance.new("UICorner")
 MinCorner.CornerRadius = UDim.new(0, 6)
 MinCorner.Parent = MinButton
@@ -172,21 +165,20 @@ MinCorner.Parent = MinButton
 local Message = Instance.new("TextLabel")
 Message.Name = "Message"
 Message.Parent = MainFrame
-Message.Position = UDim2.new(0, 307, 0, 169)
-Message.Size = UDim2.new(0.21366, -24, 0.00714, 25)
+Message.Position = UDim2.new(0.80, 0, 0.53, 0)
+Message.Size = UDim2.new(0.20, 0, 0.08, 0)
 Message.BackgroundTransparency = 1
 Message.TextColor3 = Color3.fromRGB(54, 131, 139)
 Message.Font = Enum.Font.Fondamento, Enum.FontStyle.Italic
 Message.TextScaled = true
 Message.TextWrapped = true
 Message.Text = ">__<"
-ApplyScale(Message)
 
 local TargetListLabel = Instance.new("TextLabel")
 TargetListLabel.Name = "TargetListLabel"
 TargetListLabel.Parent = MainFrame
-TargetListLabel.Position = UDim2.new(0, 39, 0, 76)
-TargetListLabel.Size = UDim2.new(0.47137, -24, 0, 25)
+TargetListLabel.Position = UDim2.new(0.10, 0, 0.25, 0)
+TargetListLabel.Size = UDim2.new(0.55, 0, 0.08, 0)
 TargetListLabel.BackgroundTransparency = 1
 TargetListLabel.TextColor3 = Color3.fromRGB(136, 204, 255)
 TargetListLabel.TextScaled = true
@@ -197,13 +189,12 @@ local TC1 = Instance.new("UICorner")
 TC1.CornerRadius = UDim.new(0, 10)
 TC1.Parent = TargetListLabel
 ApplyBorder(TargetListLabel)
-ApplyScale(TargetListLabel)
 
 local CurrentTargetLabel = Instance.new("TextLabel")
 CurrentTargetLabel.Name = "CurrentTargetLabel"
 CurrentTargetLabel.Parent = MainFrame
-CurrentTargetLabel.Position = UDim2.new(0, 39, 0, 121)
-CurrentTargetLabel.Size = UDim2.new(0.47137, -24, 0, 25)
+CurrentTargetLabel.Position = UDim2.new(0.10, 0, 0.38, 0)
+CurrentTargetLabel.Size = UDim2.new(0.55, 0, 0.08, 0)
 CurrentTargetLabel.BackgroundTransparency = 1
 CurrentTargetLabel.TextColor3 = Color3.fromRGB(136, 204, 255)
 CurrentTargetLabel.Font = Enum.Font.Fondamento, Enum.FontStyle.Italic
@@ -214,7 +205,6 @@ local TC2 = Instance.new("UICorner")
 TC2.CornerRadius = UDim.new(0, 10)
 TC2.Parent = CurrentTargetLabel
 ApplyBorder(CurrentTargetLabel)
-ApplyScale(CurrentTargetLabel)
 
 function UI.UpdateTargetsList(list)
     if typeof(list) == "table" then
@@ -237,8 +227,8 @@ local NotifyColors = {
 
 local PermanentNote = Instance.new("TextLabel")
 PermanentNote.Parent = MainFrame
-PermanentNote.Size = UDim2.new(0.471, -24, 0, 25)
-PermanentNote.Position = UDim2.new(0, 39, 0, 165)
+PermanentNote.Position = UDim2.new(0.10, 0, 0.52, 0)
+PermanentNote.Size = UDim2.new(0.55, 0, 0.09, 0)
 PermanentNote.TextColor3 = NotifyColors.info
 PermanentNote.Font = Enum.Font.Fondamento, Enum.FontStyle.Italic
 PermanentNote.TextScaled = true
@@ -247,7 +237,6 @@ PermanentNote.Text = "No News"
 PermanentNote.BackgroundTransparency = 1
 PermanentNote.TextTransparency = 0
 ApplyBorder(PermanentNote)
-ApplyScale(PermanentNote)
 
 local C = Instance.new("UICorner", PermanentNote)
 C.CornerRadius = UDim.new(0, 10)
@@ -267,8 +256,8 @@ local function createStatLabel(name, posY)
     local label = Instance.new("TextLabel")
     label.Name = name
     label.Parent = MainFrame
-    label.Size = UDim2.new(0.331, 0, -0.01, 25)
-    label.Position = UDim2.new(0,  278, 0, posY)
+    label.Size = UDim2.new(0.25, 0, 0.08, 0)
+    label.Position = UDim2.new(0.72,  0, posY, 0)
     label.BackgroundTransparency = 1
     label.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
     label.TextColor3 = Color3.fromRGB(136, 204, 255)
@@ -277,16 +266,15 @@ local function createStatLabel(name, posY)
     label.TextWrapped = true
     label.Text = name .. ": 0"
     ApplyBorder(label)
-    ApplyScale(label)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 8)
     corner.Parent = label
     return label
 end
 
-local EarnedLabel = createStatLabel("Earned", 90)
-local TotalLabel = createStatLabel("Total Earned", 121)
-local BountyLabel = createStatLabel("Bounty/Honor", 151)
+local EarnedLabel = createStatLabel("Earned", 0.28)
+local TotalLabel = createStatLabel("Total Earned", 0.40)
+local BountyLabel = createStatLabel("Bounty/Honor", 0.52)
 
 function UI.UpdateStats(Earned, TotalEarned, Bounty)
     EarnedLabel.Text = "Earned: " .. tostring(Earned)
@@ -297,8 +285,8 @@ end
 local SkipButton = Instance.new("TextButton")
 SkipButton.Name = "SkipButton"
 SkipButton.Parent = MainFrame
-SkipButton.Size = UDim2.new(0, 141, 0, 26)
-SkipButton.Position = UDim2.new(0, 66, 0, 223)
+SkipButton.Position = UDim2.new(0.15, 0, 0.70, 0)
+SkipButton.Size = UDim2.new(0.35, 0, 0.12, 0)
 SkipButton.BackgroundTransparency = 1
 SkipButton.TextColor3 = Color3.fromRGB(136, 204, 255)
 SkipButton.Font = Enum.Font.Fondamento, Enum.FontStyle.Italic
@@ -306,7 +294,6 @@ SkipButton.TextScaled = true
 SkipButton.TextWrapped = true
 SkipButton.Text = "Skip Player"
 ApplyBorder(SkipButton)
-ApplyScale(SkipButton)
 local SkipButtonCorner = Instance.new("UICorner")
 SkipButtonCorner.CornerRadius = UDim.new(0, 10)
 SkipButtonCorner.Parent = SkipButton
@@ -323,8 +310,8 @@ end)
 local SpectateButton = Instance.new("TextButton")
 SpectateButton.Name = "SpectateButton"
 SpectateButton.Parent = MainFrame
-SpectateButton.Size = UDim2.new(0, 141, 0, 26)
-SpectateButton.Position = UDim2.new(0, 245, 0, 223)
+SpectateButton.Position = UDim2.new(0.55, 0, 0.70, 0)
+SpectateButton.Size = UDim2.new(0.35, 0, 0.12, 0)
 SpectateButton.BackgroundTransparency = 1
 SpectateButton.TextColor3 = Color3.fromRGB(136, 204, 255)
 SpectateButton.Font = Enum.Font.Fondamento, Enum.FontStyle.Italic
@@ -332,7 +319,6 @@ SpectateButton.TextScaled = true
 SpectateButton.TextWrapped = true
 SpectateButton.Text = "Spectate: OFF"
 ApplyBorder(SpectateButton)
-ApplyScale(SpectateButton)
 
 local SpectateCorner = Instance.new("UICorner")
 SpectateCorner.CornerRadius = UDim.new(0, 10)
