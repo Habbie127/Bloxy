@@ -50,9 +50,9 @@ local scale = Instance.new("UIScale")
 scale.Parent = MainFrame
 
 if UIS.TouchEnabled and not UIS.KeyboardEnabled then
-    scale.Scale = 3
+    scale.Scale = 1
 else
-    scale.Scale = 4
+    scale.Scale = 2
 end
 
 local Mainline = Instance.new("Frame")
