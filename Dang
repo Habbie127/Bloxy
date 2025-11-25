@@ -77,6 +77,7 @@ MiniIcon.BackgroundTransparency = 1
 MiniIcon.ScaleType = Enum.ScaleType.Crop
 MiniIcon.BorderSizePixel = 0
 MiniIcon.ImageTransparency = 1
+MiniIcon.ImageColor3 = Color3.new(255, 255, 255)
 MiniIcon.ZIndex = 7
 MiniIcon.Image = "rbxassetid://5019337540"
 MiniIcon.Visible = false
@@ -138,7 +139,7 @@ MinButton.MouseButton1Click:Connect(function()
     if minimized then return end
     minimized = true
 
-    TweenService:Create(MainFrame, TweenInfo.new(0.25), {Size = UDim2.new(0,0,0,0), Position = UDim2.new(MainFrame.Position.X.Scale, MainFrame.Position.X.Offset, 1.2, 0)}):Play()
+    TweenService:Create(MainFrame, TweenInfo.new(0.25), {Size = UDim2.new(0,0,0,0), Position = UDim2.new(0,0,0,0)}):Play()
 
     task.delay(0.25, function()
         MainFrame.Visible = false
@@ -152,6 +153,11 @@ MiniIcon.MouseButton1Click:Connect(function()
 
     MiniIcon.Visible = false
     MainFrame.Visible = true
+
+    TweenService:Create(MainFrame, TweenInfo.new(0.25), {
+        Size = UDim2.new(0.375, 0, 0.537, 0),
+        Position = UDim2.new(0.36, 0, 0.137, 0)
+    }):Play()
 end)
 
 local MinCorner = Instance.new("UICorner")
