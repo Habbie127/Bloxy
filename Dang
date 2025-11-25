@@ -42,7 +42,6 @@ MainFrame.Parent = ScreenGui
 
 local Glow = Instance.new("UIStroke")
 Glow.Parent = MainFrame
-Mainline.ZIndex = 5
 Glow.Thickness = 4.7
 Glow.Color = Color3.fromRGB(12, 118, 255)
 Glow.Transparency = 0.59
