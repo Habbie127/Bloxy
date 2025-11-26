@@ -213,7 +213,17 @@ ApplyBorder(CurrentTargetLabel)
 
 function UI.UpdateTargetsList(list)
     if typeof(list) == "table" then
-        TargetListLabel.Text = "Targets: " .. table.concat(list, ", ")
+        local names = {}
+
+        for _, v in ipairs(list) do
+            if typeof(v) == "Instance" and v:IsA("Player") then
+                table.insert(names, v.Name)
+            else
+                table.insert(names, tostring(v))
+            end
+        end
+
+        TargetListLabel.Text = "Targets: " .. table.concat(names, ", ")
     else
         TargetListLabel.Text = "Targets: " .. tostring(list or "none")
     end
