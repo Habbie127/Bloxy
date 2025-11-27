@@ -177,22 +177,40 @@ Message.TextScaled = true
 Message.TextWrapped = true
 Message.Text = "By MeeTsuo"
 
-local TargetListLabel = Instance.new("TextLabel")
-TargetListLabel.Name = "TargetListLabel"
-TargetListLabel.Parent = MainFrame
-TargetListLabel.Position = UDim2.new(0.086, 0, 0.271, 0)
-TargetListLabel.Size = UDim2.new(0.419, 0, 0.089, 0)
-TargetListLabel.BackgroundTransparency = 1
-TargetListLabel.TextColor3 = Color3.fromRGB(137, 205, 255)
-TargetListLabel.TextScaled = true
-TargetListLabel.TextWrapped = true
-TargetListLabel.Font = Enum.Font.Fondamento
-TargetListLabel.Text = "Targets: none"
+local TargetStatusLabel = Instance.new("TextLabel")
+TargetStatusLabel.Name = "TargetStatusLabel"
+TargetStatusLabel.Parent = MainFrame
+TargetStatusLabel.Position = UDim2.new(0.086, 0, 0.271, 0)
+TargetStatusLabel.Size = UDim2.new(0.419, 0, 0.089, 0)
+TargetStatusLabel.BackgroundTransparency = 1
+TargetStatusLabel.TextColor3 = Color3.fromRGB(137, 205, 255)
+TargetStatusLabel.TextScaled = true
+TargetStatusLabel.TextWrapped = true
+TargetStatusLabel.Font = Enum.Font.Fondamento
+TargetStatusLabel.Text = "Targets: none"
 
 local TC1 = Instance.new("UICorner")
 TC1.CornerRadius = UDim.new(0, 10)
-TC1.Parent = TargetListLabel
-ApplyBorder(TargetListLabel)
+TC1.Parent = TargetStatusLabel
+ApplyBorder(TargetStatusLabel)
+
+function UI.UpdateTargetsList(list)
+    if typeof(list) == "table" then
+        local names = {}
+
+        for _, v in ipairs(list) do
+            if typeof(v) == "Instance" and v:IsA("Player") then
+                table.insert(names, v.Name)
+            else
+                table.insert(names, tostring(v))
+            end
+        end
+
+        TargetStatusLabel.Text = "" .. table.concat(names, ", ")
+    else
+        TargetStatusLabel.Text = "" .. tostring(list or "none")
+    end
+end
 
 local CurrentTargetLabel = Instance.new("TextLabel")
 CurrentTargetLabel.Name = "CurrentTargetLabel"
@@ -210,24 +228,6 @@ local TC2 = Instance.new("UICorner")
 TC2.CornerRadius = UDim.new(0, 10)
 TC2.Parent = CurrentTargetLabel
 ApplyBorder(CurrentTargetLabel)
-
-function UI.UpdateTargetsList(list)
-    if typeof(list) == "table" then
-        local names = {}
-
-        for _, v in ipairs(list) do
-            if typeof(v) == "Instance" and v:IsA("Player") then
-                table.insert(names, v.Name)
-            else
-                table.insert(names, tostring(v))
-            end
-        end
-
-        TargetListLabel.Text = "Targets: " .. table.concat(names, ", ")
-    else
-        TargetListLabel.Text = "Targets: " .. tostring(list or "none")
-    end
-end
 
 function UI.SetTarget(name)
     CurrentTargetLabel.Text = "Current Target: " .. tostring(name or "none")
