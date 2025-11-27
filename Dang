@@ -366,8 +366,8 @@ end)
 local TranButton = Instance.new("TextButton")
 TranButton.Name = "TranButton"
 TranButton.Parent = MainFrame
-TranButton.Size = UDim2.new(0.311, 0, 0.093, 0)
-TranButton.Position = UDim2.new(0.612, 0, 0.642, 0)
+TranButton.Size = UDim2.new(0.331, 0, 0.079, 0)
+TranButton.Position = UDim2.new(0.612, 0, 0.649, 0)
 TranButton.BackgroundTransparency = 1
 TranButton.TextColor3 = Color3.fromRGB(137, 205, 255)
 TranButton.Font = Enum.Font.Fondamento
