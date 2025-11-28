@@ -91,7 +91,7 @@ if not Setting.Another then
         ["Health"] = 7000,
         ["WhiteScreen"] = false,
         ["FPSBoots"] = false,
-        ["LockCamera"] = false,
+        ["LockCamera"] = true,
         ["CheckCombatBeforeHop"] = true
     }
 end
