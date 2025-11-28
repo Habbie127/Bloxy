@@ -234,10 +234,10 @@ function UI.SetTarget(name)
 end
 
 local NotifyColors = {
-    success = Color3.new(60, 200, 90),
-    error = Color3.new(220, 80, 80),
-    warn = Color3.new(240, 180, 70),
-    info = Color3.new(80, 170, 240),
+    success = Color3.fromRGB(60, 200, 90),
+    error = Color3.fromRGB(220, 80, 80),
+    warn = Color3.fromRGB(240, 180, 70),
+    info = Color3.fromRGB(80, 170, 240),
 }
 
 local PermanentNote = Instance.new("TextLabel")
