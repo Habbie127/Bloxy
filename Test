@@ -1,0 +1,245 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+local UserInputService = game:GetService("UserInputService")
+
+-- Create the main ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "StylishWindow"
+screenGui.Parent = playerGui
+
+-- ==================== Main Window ====================
+local window = Instance.new("Frame")
+window.Name = "Window"
+window.Size = UDim2.new(0, 300, 0, 200)
+window.Position = UDim2.new(0.5, -150, 0.5, -100)  -- centered
+window.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+window.BorderSizePixel = 0
+window.ClipsDescendants = true
+window.Parent = screenGui
+
+-- Rounded corners for window
+local windowCorner = Instance.new("UICorner")
+windowCorner.CornerRadius = UDim.new(0, 8)
+windowCorner.Parent = window
+
+-- Subtle border using UIStroke
+local windowStroke = Instance.new("UIStroke")
+windowStroke.Color = Color3.fromRGB(255, 255, 255)
+windowStroke.Transparency = 0.85
+windowStroke.Thickness = 1
+windowStroke.Parent = window
+
+-- ==================== Title Bar ====================
+local titleBar = Instance.new("Frame")
+titleBar.Name = "TitleBar"
+titleBar.Size = UDim2.new(1, 0, 0, 32)
+titleBar.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+titleBar.BorderSizePixel = 0
+titleBar.Parent = window
+
+-- Only top corners rounded for title bar (bottom corners square)
+local titleCorner = Instance.new("UICorner")
+titleCorner.CornerRadius = UDim.new(0, 8)
+titleCorner.Parent = titleBar
+
+-- Title text
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -70, 1, 0)
+titleLabel.Position = UDim2.new(0, 12, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Stylish Window"
+titleLabel.TextColor3 = Color3.fromRGB(240, 240, 240)
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 14
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.Parent = titleBar
+
+-- ==================== Buttons ====================
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "Close"
+closeButton.Size = UDim2.new(0, 24, 0, 24)
+closeButton.Position = UDim2.new(1, -28, 0, 4)
+closeButton.BackgroundColor3 = Color3.fromRGB(220, 70, 70)
+closeButton.Text = "✕"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 14
+closeButton.BorderSizePixel = 0
+closeButton.AutoButtonColor = false
+closeButton.Parent = titleBar
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 12)
+closeCorner.Parent = closeButton
+
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Name = "Minimize"
+minimizeButton.Size = UDim2.new(0, 24, 0, 24)
+minimizeButton.Position = UDim2.new(1, -56, 0, 4)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(90, 90, 90)
+minimizeButton.Text = "–"
+minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.TextSize = 18
+minimizeButton.BorderSizePixel = 0
+minimizeButton.AutoButtonColor = false
+minimizeButton.Parent = titleBar
+
+local minCorner = Instance.new("UICorner")
+minCorner.CornerRadius = UDim.new(0, 12)
+minCorner.Parent = minimizeButton
+
+-- Hover effects for buttons
+local function onButtonHover(button, hoverColor)
+	button.MouseEnter:Connect(function()
+		button.BackgroundColor3 = hoverColor
+	end)
+	button.MouseLeave:Connect(function()
+		if button == closeButton then
+			button.BackgroundColor3 = Color3.fromRGB(220, 70, 70)
+		else
+			button.BackgroundColor3 = Color3.fromRGB(90, 90, 90)
+		end
+	end)
+end
+onButtonHover(closeButton, Color3.fromRGB(255, 100, 100))
+onButtonHover(minimizeButton, Color3.fromRGB(140, 140, 140))
+
+-- ==================== Content Area ====================
+local content = Instance.new("Frame")
+content.Name = "Content"
+content.Size = UDim2.new(1, -10, 1, -40)
+content.Position = UDim2.new(0, 5, 0, 38)
+content.BackgroundTransparency = 1
+content.Parent = window
+
+-- Sample UI inside content
+local sampleText = Instance.new("TextLabel")
+sampleText.Size = UDim2.new(1, 0, 0, 30)
+sampleText.Position = UDim2.new(0, 0, 0.3, 0)
+sampleText.BackgroundTransparency = 1
+sampleText.Text = "Welcome to the stylish window!"
+sampleText.TextColor3 = Color3.fromRGB(200, 200, 200)
+sampleText.Font = Enum.Font.GothamMedium
+sampleText.TextSize = 14
+sampleText.Parent = content
+
+local sampleButton = Instance.new("TextButton")
+sampleButton.Size = UDim2.new(0, 120, 0, 30)
+sampleButton.Position = UDim2.new(0.5, -60, 0.6, 0)
+sampleButton.BackgroundColor3 = Color3.fromRGB(70, 130, 220)
+sampleButton.Text = "Click Me"
+sampleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+sampleButton.Font = Enum.Font.GothamBold
+sampleButton.TextSize = 14
+sampleButton.BorderSizePixel = 0
+local sampleButtonCorner = Instance.new("UICorner")
+sampleButtonCorner.CornerRadius = UDim.new(0, 6)
+sampleButtonCorner.Parent = sampleButton
+sampleButton.Parent = content
+
+sampleButton.MouseButton1Click:Connect(function()
+	print("Button clicked!")
+end)
+
+-- ==================== Drag Handle ====================
+-- Invisible frame on title bar area that doesn't overlap buttons
+local dragHandle = Instance.new("Frame")
+dragHandle.Name = "DragHandle"
+dragHandle.Size = UDim2.new(1, -64, 1, 0)  -- leave space for the two buttons
+dragHandle.Position = UDim2.new(0, 0, 0, 0)
+dragHandle.BackgroundTransparency = 1
+dragHandle.Active = true                   -- allows it to capture input
+dragHandle.Parent = titleBar
+
+-- Dragging logic
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+dragHandle.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = window.Position
+	end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+		local delta = input.Position - dragStart
+		window.Position = UDim2.new(
+			startPos.X.Scale, startPos.X.Offset + delta.X,
+			startPos.Y.Scale, startPos.Y.Offset + delta.Y
+		)
+	end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = false
+	end
+end)
+
+-- ==================== Minimize / Close Logic ====================
+local minimized = false
+local originalSize = window.Size  -- save original size
+
+minimizeButton.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	if minimized then
+		-- Save original size if not already saved
+		originalSize = window.Size
+		content.Visible = false
+		-- Shrink window to title bar height
+		window.Size = UDim2.new(originalSize.X.Scale, originalSize.X.Offset, 0, 32)
+	else
+		content.Visible = true
+		window.Size = originalSize
+	end
+end)
+
+closeButton.MouseButton1Click:Connect(function()
+	-- Toggle window visibility (close / reopen)
+	window.Visible = not window.Visible
+	-- If reopened and was minimized, restore original state
+	if window.Visible and minimized then
+		minimized = false
+		content.Visible = true
+		window.Size = originalSize
+	end
+end)
+
+-- Optional: reopen button (if you want a way to bring the window back after closing)
+-- This creates a small floating button that appears when the window is hidden.
+local reopenButton = Instance.new("TextButton")
+reopenButton.Name = "Reopen"
+reopenButton.Size = UDim2.new(0, 30, 0, 30)
+reopenButton.Position = UDim2.new(0, 10, 0, 10)
+reopenButton.BackgroundColor3 = Color3.fromRGB(70, 130, 220)
+reopenButton.Text = "☰"
+reopenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+reopenButton.Font = Enum.Font.GothamBold
+reopenButton.TextSize = 16
+reopenButton.BorderSizePixel = 0
+reopenButton.Visible = false
+reopenButton.Parent = screenGui
+
+local reopenCorner = Instance.new("UICorner")
+reopenCorner.CornerRadius = UDim.new(0, 15)
+reopenCorner.Parent = reopenButton
+
+-- Show reopen button when window is hidden, hide it when window is shown
+closeButton.MouseButton1Click:Connect(function()
+	reopenButton.Visible = not window.Visible
+end)
+
+reopenButton.MouseButton1Click:Connect(function()
+	window.Visible = true
+	reopenButton.Visible = false
+	if minimized then
+		minimized = false
+		content.Visible = true
+		window.Size = originalSize
+	end
+end)
