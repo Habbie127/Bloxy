@@ -10916,12 +10916,20 @@ end)
 end)
 
 spawn(function()
-	while wait(.1) do
+	while task.wait(0.1) do
 		pcall(function()
+			local lp = game.Players.LocalPlayer
+			local char = lp.Character
+			local hrp = char and char:FindFirstChild("HumanoidRootPart")
+
+			if not hrp then return end
+
 			local MaxDistance = math.huge
-			for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-				if v.Name ~= game.Players.LocalPlayer.Name then
-					local Distance = v:DistanceFromCharacter(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+
+			for _, v in pairs(game.Players:GetPlayers()) do
+				if v ~= lp and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+					local Distance = (v.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
+
 					if Distance < MaxDistance then
 						MaxDistance = Distance
 						TargetPlayerAim = v.Name
@@ -10933,15 +10941,28 @@ spawn(function()
 end)
 
 spawn(function()
-	pcall(function()
-		game:GetService("RunService").RenderStepped:connect(function()
-			if AimSkillNearest and TargetPlayerAim ~= nil and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") and game.Players.LocalPlayer.Character[game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name]:FindFirstChild("MousePos") then
-				local args = {
-					[1] = game:GetService("Players"):FindFirstChild(TargetPlayerAim).Character.HumanoidRootPart.Position
-				}
-				game:GetService("Players").LocalPlayer.Character[game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name].RemoteEvent:FireServer(unpack(args))
-			end
-		end)
+	game:GetService("RunService").RenderStepped:Connect(function()
+		local lp = game.Players.LocalPlayer
+		local char = lp.Character
+		local tool = char and char:FindFirstChildOfClass("Tool")
+
+		if not (AimSkillNearest and TargetPlayerAim and char and tool) then
+			return
+		end
+
+		local target = game.Players:FindFirstChild(TargetPlayerAim)
+		if not (target and target.Character and target.Character:FindFirstChild("HumanoidRootPart")) then
+			return
+		end
+
+		local toolModel = char:FindFirstChild(tool.Name)
+		if not (toolModel and toolModel:FindFirstChild("MousePos")) then
+			return
+		end
+
+		toolModel.RemoteEvent:FireServer(
+			target.Character.HumanoidRootPart.Position
+		)
 	end)
 end)
 
